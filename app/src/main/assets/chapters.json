@@ -1,0 +1,38 @@
+{
+  "chapter1":
+  {
+    "name": "title",
+    "position": "1:00",
+    "url": "https://en.wikipedia.org/wiki/Big_Buck_Bunny"
+  },
+  "chapter2":
+  {
+    "name": "butterfly",
+    "position": "1:00",
+    "url": "https://en.wikipedia.org/wiki/Big_Buck_Bunny"
+  },
+  "chapter3":
+  {
+    "name": "attack",
+    "position": "1:00",
+    "url": "https://en.wikipedia.org/wiki/Big_Buck_Bunny"
+  },
+  "chapter4":
+  {
+    "name": "the plan",
+    "position": "1:00",
+    "url": "https://en.wikipedia.org/wiki/Big_Buck_Bunny"
+  },
+  "chapter5":
+  {
+    "name": "vengeance",
+    "position": "1:00",
+    "url": "https://en.wikipedia.org/wiki/Big_Buck_Bunny"
+  },
+  "chapter6":
+  {
+    "name": "credits",
+    "position": "1:00",
+    "url": "https://en.wikipedia.org/wiki/Big_Buck_Bunny"
+  },
+}
