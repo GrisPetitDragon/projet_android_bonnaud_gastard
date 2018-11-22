@@ -1,14 +1,23 @@
 package com.example.bonnaudgastard.projet_bonnaud_gastard;
 
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,4 +53,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+
+
+
+
 }
