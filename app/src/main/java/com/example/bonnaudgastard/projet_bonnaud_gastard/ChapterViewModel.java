@@ -2,6 +2,7 @@ package com.example.bonnaudgastard.projet_bonnaud_gastard;
 
 import android.arch.lifecycle.ViewModel;
 import android.content.Context;
+import android.util.Log;
 
 import java.util.LinkedList;
 
@@ -44,6 +45,31 @@ public class ChapterViewModel extends ViewModel {
         }
         return json;
 
+    }
+
+
+    /**
+     * Initialise les boutons et l'url de la page web
+     * @param context
+     * @param json
+     */
+    private void initApp(Context context, String json) {
+        try {
+            JSONObject obj = new JSONObject(json);
+            String content = obj.getString("content");
+            JSONObject chapters = new JSONObject(content);
+
+            
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public void initApp(Context context){
+        String json = this.loadJson(context);
+        this.initApp(context,json);
     }
 
     private List<Chapter> readJson() {

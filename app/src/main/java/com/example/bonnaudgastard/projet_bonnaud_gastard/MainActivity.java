@@ -1,5 +1,6 @@
 package com.example.bonnaudgastard.projet_bonnaud_gastard;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -13,6 +14,7 @@ import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,6 +27,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Création du ViewModel
+        ChapterViewModel chaptersViewModel = ViewModelProviders.of(this).get(ChapterViewModel.class);
+
         //Création de la vue
         VideoView videoView = (VideoView) findViewById(R.id.videoView);
         //Récupération de la vidéo
@@ -50,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
                 mp.start();
             }
         });
+
+        chaptersViewModel.initApp(this);
+
 
 
     }
