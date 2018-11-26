@@ -4,21 +4,28 @@ import android.arch.lifecycle.ViewModel;
 import android.content.Context;
 
 import java.util.LinkedList;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class ChapterViewModel extends ViewModel {
+    private final static Logger LOGGER = Logger.getLogger(ViewModel.class.getName());
+
     private List<Chapter> chapterList;
-        String json;
+    String json;
+
+    /**
      * Charge le JSON en tant que String
+     *
      * @param context
      * @return
      */
-    private String loadJson(Context context){
+    private String loadJson(Context context) {
 
         try {
             InputStream is = context.getAssets().open("chapters.json");
@@ -30,26 +37,32 @@ public class ChapterViewModel extends ViewModel {
             is.close();
 
             json = new String(buffer, "UTF-8");
-    }
-        return json;
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.severe("Problème lors de la lecture du fichier JSON");
 
         }
-            return null;
-            ex.printStackTrace();
-        } catch (IOException ex) {
-    private List <Chapter> readJson() {
-    /**
+        return json;
+
     }
-        List<Chapter> list = new LinkedList<Chapter>();
 
-        //On récupère le contenu
-        //Cet objet va nous permettre de récupérer les informations
-
-        //JSONObject lesChapitres =new JSONObject(jsonString);
-
-        //for (int i=0;i<lesChapitres.length();i++)
-          //  chapitreJson = lesChapitres[i];
-            //String aJsonString = jObject.getString("STRINGNAME");
-
-        return list;
+    private List<Chapter> readJson() {
+        return this.chapterList;
+    }
 }
+/**
+ * }
+ * List<Chapter> list = new LinkedList<Chapter>();
+ * <p>
+ * //On récupère le contenu
+ * //Cet objet va nous permettre de récupérer les informations
+ * <p>
+ * //JSONObject lesChapitres =new JSONObject(jsonString);
+ * <p>
+ * //for (int i=0;i<lesChapitres.length();i++)
+ * //  chapitreJson = lesChapitres[i];
+ * //String aJsonString = jObject.getString("STRINGNAME");
+ * <p>
+ * return list;
+ * }
+ * **/
