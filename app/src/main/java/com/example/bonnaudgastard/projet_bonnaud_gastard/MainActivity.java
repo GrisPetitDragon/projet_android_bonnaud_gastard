@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
         chaptersViewModel.initApp(this);
 
-
+chaptersViewModel.getChapterList().observe(this, this::showUsers);
 
 
 

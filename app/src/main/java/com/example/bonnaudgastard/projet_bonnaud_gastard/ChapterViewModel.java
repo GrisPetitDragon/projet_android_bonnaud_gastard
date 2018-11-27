@@ -23,10 +23,35 @@ public class ChapterViewModel extends ViewModel {
 
     private List<Chapter> chapterList;
 
+    //on utilise Mutable pour que les LiveData ne soient modifiables que depuis ce ViewModel
     private MutableLiveData<List<Chapter>> chapterListLiveData =
             new MutableLiveData<>();
-    
+    private MutableLiveData<Chapter> currentChapterLiveData =
+            new MutableLiveData<>();
+
     String json;
+
+    private ChapterViewModel() {
+        List<Chapter> chapterList = new LinkedList<Chapter>();
+
+
+        currentChapterLiveData.postValue(chapterList);
+
+        // On récupère le premier chapitre
+        Chapter currentChapter = chapterListLiveData.getValue().get(0);
+        // On la transmet aux observateurs
+        MutableLiveData<Chapter> liveChapter = new MutableLiveData<Chapter>();
+        currentChapterLiveData.postValue(currentChapter);
+
+
+    }
+
+
+    private void setCurrentChapter(Chapter newCurrentChapter) {
+        //on utilise postValue pour que ce soit asynchrone, autrement ça va bloquer l'appli;
+        chapterListLiveData.postValue(newCurrentChapter);
+    }
+
 
     /**
      * Charge le JSON en tant que String
@@ -58,17 +83,19 @@ public class ChapterViewModel extends ViewModel {
 
     /**
      * Initialise les boutons et l'url de la page web
+     *
      * @param context
      * @param json
      */
-    private void initApp(Context context, String json) {
+    private void initChapterList(Context context, String json) {
         try {
+
             JSONObject obj = new JSONObject(json);
             String content = obj.getString("content");
             JSONObject chapters = new JSONObject(content);
 
             Iterator<String> chapterIterator = chapters.keys();
-            while(chapterIterator.hasNext()){
+            while (chapterIterator.hasNext()) {
 
                 String jsonString = chapterIterator.next();
                 Chapter chapter = new Chapter();
@@ -93,14 +120,15 @@ public class ChapterViewModel extends ViewModel {
 
     /**
      * Method that can be called from the outside e.g. by the activity without bothering with the JSON
+     *
      * @param context
      */
-    public void initApp(Context context){
+    public void initApp(Context context) {
         String json = this.loadJson(context);
-        this.initApp(context,json);
+        this.initChapterList(context, json);
     }
 
-    private List<Chapter> readJson() {
+    public List<Chapter> getChapterList() {
         return this.chapterList;
     }
 }
@@ -119,4 +147,4 @@ public class ChapterViewModel extends ViewModel {
  * <p>
  * return list;
  * }
- * **/
+ **/
