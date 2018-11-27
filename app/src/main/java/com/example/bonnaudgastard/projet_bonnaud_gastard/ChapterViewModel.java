@@ -1,9 +1,13 @@
 package com.example.bonnaudgastard.projet_bonnaud_gastard;
 
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.content.Context;
 import android.util.Log;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import org.json.JSONException;
@@ -18,6 +22,10 @@ public class ChapterViewModel extends ViewModel {
     private final static Logger LOGGER = Logger.getLogger(ViewModel.class.getName());
 
     private List<Chapter> chapterList;
+
+    private MutableLiveData<List<Chapter>> chapterListLiveData =
+            new MutableLiveData<>();
+    
     String json;
 
     /**
@@ -59,7 +67,23 @@ public class ChapterViewModel extends ViewModel {
             String content = obj.getString("content");
             JSONObject chapters = new JSONObject(content);
 
-            
+            Iterator<String> chapterIterator = chapters.keys();
+            while(chapterIterator.hasNext()){
+
+                String jsonString = chapterIterator.next();
+                Chapter chapter = new Chapter();
+
+                JSONObject jsonObject = new JSONObject(jsonString);
+                chapter.setName(jsonObject.getString("name"));
+                try {
+                    chapter.setUrl(new URL(jsonObject.getString("url")));
+                } catch (MalformedURLException e) {
+                    Log.e("ERREUR", "URL mal formatée");
+                    e.printStackTrace();
+                }
+                chapter.setPosition(jsonObject.getString("position"));
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -67,6 +91,10 @@ public class ChapterViewModel extends ViewModel {
 
     }
 
+    /**
+     * Method that can be called from the outside e.g. by the activity without bothering with the JSON
+     * @param context
+     */
     public void initApp(Context context){
         String json = this.loadJson(context);
         this.initApp(context,json);
