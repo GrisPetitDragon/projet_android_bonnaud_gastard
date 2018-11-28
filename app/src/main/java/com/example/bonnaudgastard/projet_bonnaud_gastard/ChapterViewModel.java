@@ -1,5 +1,6 @@
 package com.example.bonnaudgastard.projet_bonnaud_gastard;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.content.Context;
@@ -23,6 +24,8 @@ public class ChapterViewModel extends ViewModel {
 
     private List<Chapter> chapterList;
 
+    private MutableLiveData<Integer> positionTemporelleLiveData;
+
     //on utilise Mutable pour que les LiveData ne soient modifiables que depuis ce ViewModel
     private MutableLiveData<List<Chapter>> chapterListLiveData =
             new MutableLiveData<>();
@@ -33,6 +36,9 @@ public class ChapterViewModel extends ViewModel {
     String json;
 
     private ChapterViewModel(Context context) {
+        super();
+
+
         List<Chapter> chapterList = new LinkedList<Chapter>();
 
         //lecture du JSON
@@ -45,6 +51,11 @@ public class ChapterViewModel extends ViewModel {
         Chapter currentChapter = chapterListLiveData.getValue().get(0);
         // On la transmet aux observateurs comme étant le chapitre courant
         currentChapterLiveData.postValue(currentChapter);
+
+        positionTemporelleLiveData = new MutableLiveData<Integer>();
+
+        //on fixe le point de départ de la vidéo à 0
+        positionTemporelleLiveData.setValue(currentChapterLiveData.getValue().getPosition());
     }
 
     /**
@@ -115,7 +126,7 @@ public class ChapterViewModel extends ViewModel {
                     Log.e("ERREUR", "URL mal formatée");
                     e.printStackTrace();
                 }
-                chapter.setPosition(jsonObject.getString("position"));
+                chapter.setPosition(jsonObject.getInt("position"));
 
                 //on ajoute le nouveau chapitre à la liste
                 chapList.add(chapter);

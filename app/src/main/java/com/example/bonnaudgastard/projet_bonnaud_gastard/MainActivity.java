@@ -47,6 +47,12 @@ public class MainActivity extends AppCompatActivity {
 
         //Passage au premier plan
         videoView.requestFocus();
+        /**videoView.observe(this,
+        position -> {
+            position;
+            videoView.seekTo(position);
+            // update UI
+        });**/
         //Une fois la vidéo chargée, on la traite
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
 
@@ -55,8 +61,6 @@ public class MainActivity extends AppCompatActivity {
                 mp.start();
             }
         });
-
-        mediaController.
 
     }
 
