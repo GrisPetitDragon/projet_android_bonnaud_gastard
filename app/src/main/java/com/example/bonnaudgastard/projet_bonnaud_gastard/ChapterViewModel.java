@@ -26,30 +26,35 @@ public class ChapterViewModel extends ViewModel {
     //on utilise Mutable pour que les LiveData ne soient modifiables que depuis ce ViewModel
     private MutableLiveData<List<Chapter>> chapterListLiveData =
             new MutableLiveData<>();
+    //On sauvegarde à part le chapitre courant, car c'est lui qui est le plus à même de changer au cours de l'utilisation de l'application
     private MutableLiveData<Chapter> currentChapterLiveData =
             new MutableLiveData<>();
 
     String json;
 
-    private ChapterViewModel() {
+    private ChapterViewModel(Context context) {
         List<Chapter> chapterList = new LinkedList<Chapter>();
 
-
-        currentChapterLiveData.postValue(chapterList);
-
+        //lecture du JSON
+        String json = loadJson(context);
+        //Création de la liste des chapitres
+        chapterList = initChapterList(context, json);
+        //Mise à disposition des observateurs
+        chapterListLiveData.postValue(chapterList);
         // On récupère le premier chapitre
         Chapter currentChapter = chapterListLiveData.getValue().get(0);
-        // On la transmet aux observateurs
-        MutableLiveData<Chapter> liveChapter = new MutableLiveData<Chapter>();
+        // On la transmet aux observateurs comme étant le chapitre courant
         currentChapterLiveData.postValue(currentChapter);
-
-
     }
 
-
+    /**
+     * Change la valeur du chapitre courant pour l'ensemble des observateurs du chapitre courant
+     *
+     * @param newCurrentChapter
+     */
     private void setCurrentChapter(Chapter newCurrentChapter) {
         //on utilise postValue pour que ce soit asynchrone, autrement ça va bloquer l'appli;
-        chapterListLiveData.postValue(newCurrentChapter);
+        currentChapterLiveData.postValue(newCurrentChapter);
     }
 
 
@@ -87,8 +92,10 @@ public class ChapterViewModel extends ViewModel {
      * @param context
      * @param json
      */
-    private void initChapterList(Context context, String json) {
+    private List<Chapter> initChapterList(Context context, String json) {
+        List<Chapter> chapList = new LinkedList<Chapter>();
         try {
+
 
             JSONObject obj = new JSONObject(json);
             String content = obj.getString("content");
@@ -109,42 +116,20 @@ public class ChapterViewModel extends ViewModel {
                     e.printStackTrace();
                 }
                 chapter.setPosition(jsonObject.getString("position"));
+
+                //on ajoute le nouveau chapitre à la liste
+                chapList.add(chapter);
             }
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        return chapList;
 
-
-    }
-
-    /**
-     * Method that can be called from the outside e.g. by the activity without bothering with the JSON
-     *
-     * @param context
-     */
-    public void initApp(Context context) {
-        String json = this.loadJson(context);
-        this.initChapterList(context, json);
     }
 
     public List<Chapter> getChapterList() {
         return this.chapterList;
     }
 }
-/**
- * }
- * List<Chapter> list = new LinkedList<Chapter>();
- * <p>
- * //On récupère le contenu
- * //Cet objet va nous permettre de récupérer les informations
- * <p>
- * //JSONObject lesChapitres =new JSONObject(jsonString);
- * <p>
- * //for (int i=0;i<lesChapitres.length();i++)
- * //  chapitreJson = lesChapitres[i];
- * //String aJsonString = jObject.getString("STRINGNAME");
- * <p>
- * return list;
- * }
- **/
+

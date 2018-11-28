@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
 
         //Passage au premier plan
         videoView.requestFocus();
-
         //Une fois la vidéo chargée, on la traite
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
 
@@ -57,16 +56,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        chaptersViewModel.initApp(this);
-
-chaptersViewModel.getChapterList().observe(this, this::showUsers);
-
-
+        mediaController.
 
     }
-
-
-
-
 
 }
