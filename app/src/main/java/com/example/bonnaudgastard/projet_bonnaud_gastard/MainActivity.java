@@ -1,5 +1,6 @@
 package com.example.bonnaudgastard.projet_bonnaud_gastard;
 
+import android.support.annotation.Nullable;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
@@ -15,6 +16,8 @@ import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+public class MainActivity extends AppCompatActivity implements Observer {
+    ChapterData data = new ChapterData();
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        data.observe(this, this);
 
         //Création du ViewModel
         ChapterViewModel chaptersViewModel = ViewModelProviders.of(this).get(ChapterViewModel.class);
@@ -74,6 +78,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+    }
+
+    @Override
+    public void onChanged(@Nullable Object o) {
 
     }
 
