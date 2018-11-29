@@ -1,5 +1,6 @@
 package com.example.bonnaudgastard.projet_bonnaud_gastard;
 
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.media.MediaPlayer;
@@ -33,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
 
         //Création de la vue
         VideoView videoView = (VideoView) findViewById(R.id.videoView);
+        // et enregistrement de cette vue dans le ViewModel
+        chaptersViewModel.setVideoView(videoView);
+
         //Récupération de la vidéo
         String url = "https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4";
         Uri videoUri = Uri.parse(url);
@@ -40,27 +44,36 @@ public class MainActivity extends AppCompatActivity {
 
         //Ajout des éléments de contrôle
         MediaController mediaController = new MediaController(this);
+
         //disposition sur la vidéo
         mediaController.setAnchorView(videoView);
+
         //ajout à la vidéo
         videoView.setMediaController(mediaController);
 
+        videoView.observe(this, new Observer<Integer>(){
+            // update UI
+            @Override
+            public void onChanged (Integer position) {
+                chaptersViewModel.majVideo(position);
+                chaptersViewModel.majWebView(position);
+                chaptersViewModel.majChapitreCourant(position);
+            }
+        });
+
+
+
         //Passage au premier plan
         videoView.requestFocus();
-        /**videoView.observe(this,
-        position -> {
-            position;
-            videoView.seekTo(position);
-            // update UI
-        });**/
+
         //Une fois la vidéo chargée, on la traite
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-
             @Override
             public void onPrepared(MediaPlayer mp) {
                 mp.start();
             }
         });
+
 
     }
 

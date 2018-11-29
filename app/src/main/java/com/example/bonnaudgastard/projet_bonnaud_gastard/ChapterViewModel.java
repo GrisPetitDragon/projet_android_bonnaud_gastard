@@ -5,6 +5,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.content.Context;
 import android.util.Log;
+import android.widget.VideoView;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -29,15 +30,17 @@ public class ChapterViewModel extends ViewModel {
     //on utilise Mutable pour que les LiveData ne soient modifiables que depuis ce ViewModel
     private MutableLiveData<List<Chapter>> chapterListLiveData =
             new MutableLiveData<>();
+
     //On sauvegarde à part le chapitre courant, car c'est lui qui est le plus à même de changer au cours de l'utilisation de l'application
     private MutableLiveData<Chapter> currentChapterLiveData =
             new MutableLiveData<>();
+
+    private VideoView videoView;
 
     String json;
 
     private ChapterViewModel(Context context) {
         super();
-
 
         List<Chapter> chapterList = new LinkedList<Chapter>();
 
@@ -52,9 +55,8 @@ public class ChapterViewModel extends ViewModel {
         // On la transmet aux observateurs comme étant le chapitre courant
         currentChapterLiveData.postValue(currentChapter);
 
-        positionTemporelleLiveData = new MutableLiveData<Integer>();
-
         //on fixe le point de départ de la vidéo à 0
+        positionTemporelleLiveData = new MutableLiveData<Integer>();
         positionTemporelleLiveData.setValue(currentChapterLiveData.getValue().getPosition());
     }
 
@@ -139,8 +141,16 @@ public class ChapterViewModel extends ViewModel {
 
     }
 
+    public void majVideo(int position){
+        videoView.seekTo(position);
+    }
+
     public List<Chapter> getChapterList() {
         return this.chapterList;
+    }
+
+    public void setVideoView(VideoView videoView) {
+        this.videoView = videoView;
     }
 }
 
