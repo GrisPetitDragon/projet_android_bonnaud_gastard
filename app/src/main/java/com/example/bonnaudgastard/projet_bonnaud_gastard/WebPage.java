@@ -5,6 +5,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 public class WebPage {
+
     /**
      * Charge la page web
      */
