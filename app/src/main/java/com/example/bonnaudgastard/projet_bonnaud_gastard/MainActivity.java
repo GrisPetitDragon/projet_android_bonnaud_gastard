@@ -16,28 +16,29 @@ import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-public class MainActivity extends AppCompatActivity implements Observer {
-    ChapterData data = new ChapterData();
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-public class MainActivity extends AppCompatActivity {
+
+public class MainActivity extends AppCompatActivity{
+    private ChapterData data = new ChapterData();
+    private ChapterViewModel chaptersViewModel;
+    private VideoView videoView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        data.observe(this, this);
+        //data.observe(this, this);
 
         //Création du ViewModel
-        ChapterViewModel chaptersViewModel = ViewModelProviders.of(this).get(ChapterViewModel.class);
+        chaptersViewModel = new ChapterViewModel(this);//ViewModelProviders.of(this).get(ChapterViewModel.class);
 
         //Création de la vue
-        VideoView videoView = (VideoView) findViewById(R.id.videoView);
+        this.videoView = (VideoView) findViewById(R.id.videoView);
         // et enregistrement de cette vue dans le ViewModel
         chaptersViewModel.setVideoView(videoView);
 
@@ -55,17 +56,6 @@ public class MainActivity extends AppCompatActivity {
         //ajout à la vidéo
         videoView.setMediaController(mediaController);
 
-        videoView.observe(this, new Observer<Integer>(){
-            // update UI
-            @Override
-            public void onChanged (Integer position) {
-                chaptersViewModel.majVideo(position);
-                chaptersViewModel.majWebView(position);
-                chaptersViewModel.majChapitreCourant(position);
-            }
-        });
-
-
 
         //Passage au premier plan
         videoView.requestFocus();
@@ -75,15 +65,32 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 mp.start();
+                chaptersViewModel.setPositionTemporelleLiveData(0);
+            }
+        });
+
+        chaptersViewModel.getPositionTemporelleLiveData().observe(this, new Observer<Integer>() {
+            // update UI
+            @Override
+            public void onChanged(Integer position) {
+                chaptersViewModel.setPositionTemporelleLiveData(position);
+                //majVideo();
+                //majWebView(position);
+                //majChapitreCourant(position);
             }
         });
 
 
     }
 
-    @Override
-    public void onChanged(@Nullable Object o) {
-
+    public void majVideo (){
+        videoView.seekTo(this.chaptersViewModel.getPositionTemporelleLiveData().getValue());
     }
+
+    /**public void onClick(View videoView) {
+        chaptersViewModel.setPositionTemporelleLiveData(position);
+
+    }**/
+
 
 }

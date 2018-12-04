@@ -14,6 +14,10 @@ class Chapter {
         this.name = name;
     }
 
+    public String toString(){
+        return this.name + " " + this.position + " "+ this.url;
+    }
+
     public int getPosition() {
         return position;
     }

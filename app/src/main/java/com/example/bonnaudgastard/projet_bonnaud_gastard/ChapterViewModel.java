@@ -2,6 +2,7 @@ package com.example.bonnaudgastard.projet_bonnaud_gastard;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
 import android.content.Context;
 import android.util.Log;
@@ -27,6 +28,30 @@ public class ChapterViewModel extends ViewModel {
 
     private MutableLiveData<Integer> positionTemporelleLiveData;
 
+    public MutableLiveData<Integer> getPositionTemporelleLiveData() {
+        return positionTemporelleLiveData;
+    }
+
+    public void setPositionTemporelleLiveData(Integer nvellePositionTemporelle) {
+        this.positionTemporelleLiveData.setValue(nvellePositionTemporelle);
+    }
+
+    public MutableLiveData<List<Chapter>> getChapterListLiveData() {
+        return chapterListLiveData;
+    }
+
+    public void setChapterListLiveData(MutableLiveData<List<Chapter>> chapterListLiveData) {
+        this.chapterListLiveData = chapterListLiveData;
+    }
+
+    public MutableLiveData<Chapter> getCurrentChapterLiveData() {
+        return currentChapterLiveData;
+    }
+
+    public void setCurrentChapterLiveData(MutableLiveData<Chapter> currentChapterLiveData) {
+        this.currentChapterLiveData = currentChapterLiveData;
+    }
+
     //on utilise Mutable pour que les LiveData ne soient modifiables que depuis ce ViewModel
     private MutableLiveData<List<Chapter>> chapterListLiveData =
             new MutableLiveData<>();
@@ -39,7 +64,7 @@ public class ChapterViewModel extends ViewModel {
 
     String json;
 
-    private ChapterViewModel(Context context) {
+    public ChapterViewModel(Context context) {
         super();
 
         List<Chapter> chapterList = new LinkedList<Chapter>();
@@ -49,15 +74,18 @@ public class ChapterViewModel extends ViewModel {
         //Création de la liste des chapitres
         chapterList = initChapterList(context, json);
         //Mise à disposition des observateurs
-        chapterListLiveData.postValue(chapterList);
+        chapterListLiveData.setValue(chapterList);
         // On récupère le premier chapitre
+
         Chapter currentChapter = chapterListLiveData.getValue().get(0);
         // On la transmet aux observateurs comme étant le chapitre courant
-        currentChapterLiveData.postValue(currentChapter);
+       currentChapterLiveData.setValue(currentChapter);
 
         //on fixe le point de départ de la vidéo à 0
         positionTemporelleLiveData = new MutableLiveData<Integer>();
         positionTemporelleLiveData.setValue(currentChapterLiveData.getValue().getPosition());
+
+
     }
 
     /**
@@ -115,12 +143,14 @@ public class ChapterViewModel extends ViewModel {
             JSONObject chapters = new JSONObject(content);
 
             Iterator<String> chapterIterator = chapters.keys();
+            JSONObject jsonObject;
             while (chapterIterator.hasNext()) {
+                String currentKey = (String) chapterIterator.next();
 
-                String jsonString = chapterIterator.next();
+                jsonObject = chapters.getJSONObject(currentKey);
+
                 Chapter chapter = new Chapter();
-
-                JSONObject jsonObject = new JSONObject(jsonString);
+                Log.i("INFO", chapter.toString());
                 chapter.setName(jsonObject.getString("name"));
                 try {
                     chapter.setUrl(new URL(jsonObject.getString("url")));
@@ -141,7 +171,12 @@ public class ChapterViewModel extends ViewModel {
 
     }
 
-    public void majVideo(int position){
+    /**
+     * Sets the videoView to the new position
+     *
+     * @param position
+     */
+    public void majVideo(int position) {
         videoView.seekTo(position);
     }
 
