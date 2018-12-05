@@ -48,12 +48,21 @@ public class MainActivity extends AppCompatActivity {
         Iterator<Chapter> chpIt = chaptersViewModel.getChapterListLiveData().getValue().iterator();
         while (chpIt.hasNext()) {
             Chapter chpCourant = chpIt.next();
-            Button myButton = new Button(this);
+            ChapterButton myButton = new ChapterButton(this, chpCourant);
             myButton.setText(chpCourant.getName());
 
             LinearLayout ll = (LinearLayout) this.findViewById(R.id.buttonPanel);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             ll.addView(myButton, lp);
+
+            myButton.setOnClickListener( new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    chaptersViewModel.setCurrentChapter(myButton.getChapter());
+                    majVideo();
+                }
+            });
         }
 
 
@@ -99,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
             // update UI
             @Override
             public void onChanged(Integer position) {
-                chaptersViewModel.setPositionTemporelleLiveData(position);
+                //chaptersViewModel.setPositionTemporelleLiveData(position);
                 //majVideo();
                 //majWebView(position);
                 //majChapitreCourant(position);
@@ -110,7 +119,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void majVideo() {
-        videoView.seekTo(this.chaptersViewModel.getPositionTemporelleLiveData().getValue());
+        //videoView.seekTo(this.chaptersViewModel.getPositionTemporelleLiveData().getValue());
+        videoView.seekTo(this.chaptersViewModel.getCurrentChapterLiveData().getValue().getPosition());
+        videoView.start();
     }
 
     /**public void onClick(View videoView) {
