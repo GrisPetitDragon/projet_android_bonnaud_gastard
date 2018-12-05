@@ -1,5 +1,6 @@
 package com.example.bonnaudgastard.projet_bonnaud_gastard;
 
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -23,9 +24,6 @@ import android.widget.VideoView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-    RecyclerView horizontal_recycler_view;
-    HorizontalAdapter horizontalAdapter;
-    private List<ButtonsData> data;
 
 
 public class MainActivity extends AppCompatActivity{
