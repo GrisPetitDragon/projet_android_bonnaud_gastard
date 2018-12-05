@@ -170,16 +170,15 @@ public class ChapterViewModel extends ViewModel {
 
             }
 
-            Log.d("DEBUG", "Test");
             if (context instanceof Activity) {
                 Activity activity = (Activity) context;
-                LinearLayout ll = (LinearLayout) activity.findViewById(R.id.buttonPanel);
 
                 for(int i=0 ; i<chapList.size() ; i++) {
                     Button myButton = new Button(context);
                     myButton.setText(chapList.get(i).getName());
 
-                    LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+                    LinearLayout ll = (LinearLayout) activity.findViewById(R.id.buttonPanel);
+                    LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
                     ll.addView(myButton, lp);
                 }
             }
