@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     chaptersViewModel.setCurrentChapter(myButton.getChapter());
                     majVideo();
+                    majWebView();
                 }
             });
         }
@@ -116,6 +117,10 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void majWebView() {
+        this.webView.loadUrl(chaptersViewModel.getCurrentChapterLiveData().getValue().getUrl().toString());
     }
 
     public void majVideo() {
