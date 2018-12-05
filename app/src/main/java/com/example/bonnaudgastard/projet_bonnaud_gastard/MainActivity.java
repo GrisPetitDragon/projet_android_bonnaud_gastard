@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
             //ajout du bouton à la vue
             ll.addView(myButton, lp);
             //définition de ce qu'il y a à faire au clic : mise à jour de la vidéo et de la webview
-            myButton.setOnClickListener( new View.OnClickListener() {
+            myButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     chaptersViewModel.setCurrentChapter(myButton.getChapter());
@@ -64,8 +64,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
-
-
         //Création de la vue de la vidéo
         this.videoView = (VideoView) findViewById(R.id.videoView);
 
@@ -97,18 +95,30 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 mp.start();
-                chaptersViewModel.setPositionTemporelleLiveData(0);
+                chaptersViewModel.setPositionTemporelle(0);
             }
         });
 
         chaptersViewModel.getPositionTemporelleLiveData().observe(this, new Observer<Integer>() {
+
             // update UI
             @Override
             public void onChanged(Integer position) {
-                //changer de chapitre
+                chaptersViewModel.setPositionTemporelle(position);
 
-                Chapter newChapter = new Chapter();
-                chaptersViewModel.setCurrentChapter(newChapter);
+                //changer de chapitre
+                /**Iterator<Chapter> chpIt = chaptersViewModel.getChapterListLiveData().getValue().iterator();
+                Chapter chpALirePrecedent = new Chapter();
+                while (chpIt.hasNext()) {
+                    Chapter chpConsidere = chpIt.next();
+                    // On garde l'ancien au cas où la nouvelle position temporelle serait antérieur au chapitre qu'on vient de récupérer
+                    chpALirePrecedent = chpConsidere;
+                    if (position> chpConsidere.getPosition()) {
+                        chaptersViewModel.setCurrentChapter(chpALirePrecedent);
+                        //majWebView();
+                    }
+                }**/
+
             }
         });
 
