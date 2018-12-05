@@ -25,8 +25,8 @@
 
     <VideoView
         android:id="@+id/videoView"
-        android:layout_width="316dp"
-        android:layout_height="209dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
@@ -35,6 +35,8 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:minWidth="180dp"
+        android:minHeight="320dp"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -61,13 +63,15 @@
 
     <WebView
         android:id="@+id/webview"
-        android:layout_width="257dp"
+        android:layout_width="281dp"
         android:layout_height="227dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@color/colorPrimary"
+        android:minWidth="220dp"
+        android:minHeight="280dp"
         app:layout_constraintBottom_toTopOf="@+id/buttonPanel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
