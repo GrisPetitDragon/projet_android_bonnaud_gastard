@@ -37,8 +37,8 @@ public class ChapterViewModel extends ViewModel {
         return positionTemporelleLiveData;
     }
 
-    public void setPositionTemporelleLiveData(Integer nvellePositionTemporelle) {
-        this.positionTemporelleLiveData.setValue(nvellePositionTemporelle);
+    public void setPositionTemporelle(Integer nvellePositionTemporelle) {
+        this.positionTemporelleLiveData.postValue(nvellePositionTemporelle);
     }
 
     public MutableLiveData<List<Chapter>> getChapterListLiveData() {
