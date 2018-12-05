@@ -12,6 +12,7 @@ import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity{
         //data.observe(this, this);
 
         //Création du ViewModel
+        //Toast.makeText(this, "This is my Toast message!", Toast.LENGTH_LONG).show();
         chaptersViewModel = new ChapterViewModel(this);//ViewModelProviders.of(this).get(ChapterViewModel.class);
 
         //Création de la vue

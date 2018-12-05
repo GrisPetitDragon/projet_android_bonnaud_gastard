@@ -1,12 +1,17 @@
 package com.example.bonnaudgastard.projet_bonnaud_gastard;
 
+import android.app.Activity;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
 import android.content.Context;
 import android.util.Log;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 import android.widget.VideoView;
+import android.widget.LinearLayout.LayoutParams;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -33,7 +38,7 @@ public class ChapterViewModel extends ViewModel {
     }
 
     public void setPositionTemporelleLiveData(Integer nvellePositionTemporelle) {
-        this.positionTemporelleLiveData.setValue(nvellePositionTemporelle);
+        //this.positionTemporelleLiveData.setValue(nvellePositionTemporelle);
     }
 
     public MutableLiveData<List<Chapter>> getChapterListLiveData() {
@@ -136,8 +141,6 @@ public class ChapterViewModel extends ViewModel {
     private List<Chapter> initChapterList(Context context, String json) {
         List<Chapter> chapList = new LinkedList<Chapter>();
         try {
-
-
             JSONObject obj = new JSONObject(json);
             String content = obj.getString("content");
             JSONObject chapters = new JSONObject(content);
@@ -150,7 +153,6 @@ public class ChapterViewModel extends ViewModel {
                 jsonObject = chapters.getJSONObject(currentKey);
 
                 Chapter chapter = new Chapter();
-                Log.i("INFO", chapter.toString());
                 chapter.setName(jsonObject.getString("name"));
                 try {
                     chapter.setUrl(new URL(jsonObject.getString("url")));
@@ -160,8 +162,26 @@ public class ChapterViewModel extends ViewModel {
                 }
                 chapter.setPosition(jsonObject.getInt("position"));
 
+                Log.i("CHAPTER", chapter.toString());
+
                 //on ajoute le nouveau chapitre à la liste
                 chapList.add(chapter);
+
+
+            }
+
+            Log.d("DEBUG", "Test");
+            if (context instanceof Activity) {
+                Activity activity = (Activity) context;
+                LinearLayout ll = (LinearLayout) activity.findViewById(R.id.buttonPanel);
+
+                for(int i=0 ; i<chapList.size() ; i++) {
+                    Button myButton = new Button(context);
+                    myButton.setText(chapList.get(i).getName());
+
+                    LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
+                    ll.addView(myButton, lp);
+                }
             }
 
         } catch (JSONException e) {
