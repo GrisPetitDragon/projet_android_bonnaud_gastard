@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity{
     private ChapterData data = new ChapterData();
     private ChapterViewModel chaptersViewModel;
     private VideoView videoView;
+    private WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,12 @@ public class MainActivity extends AppCompatActivity{
         this.videoView = (VideoView) findViewById(R.id.videoView);
         // et enregistrement de cette vue dans le ViewModel
         chaptersViewModel.setVideoView(videoView);
+
+        webView = (WebView) findViewById(R.id.webview);
+        webView.setWebViewClient(new WebPage());
+
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.loadUrl("https://en.wikipedia.org/wiki/Big_Buck_Bunny");
 
         //Récupération de la vidéo
         String url = "https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4";
