@@ -37,26 +37,25 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
-        //data.observe(this, this);
 
         //Création du ViewModel
-        //Toast.makeText(this, "This is my Toast message!", Toast.LENGTH_LONG).show();
         chaptersViewModel = new ChapterViewModel(this);//ViewModelProviders.of(this).get(ChapterViewModel.class);
 
+        //Création des boutons : on en fait par chapitre de la liste des chapitres
         Iterator<Chapter> chpIt = chaptersViewModel.getChapterListLiveData().getValue().iterator();
         while (chpIt.hasNext()) {
             Chapter chpCourant = chpIt.next();
+            //on construit les infos du chapitre qui seront intégrées au bouton
             ChapterButton myButton = new ChapterButton(this, chpCourant);
+            //L'intérieur du bouton, c'est le nom du chapitre
             myButton.setText(chpCourant.getName());
-
             LinearLayout ll = (LinearLayout) this.findViewById(R.id.buttonPanel);
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            //ajout du bouton à la vue
             ll.addView(myButton, lp);
-
+            //définition de ce qu'il y a à faire au clic : mise à jour de la vidéo et de la webview
             myButton.setOnClickListener( new View.OnClickListener() {
-
                 @Override
                 public void onClick(View v) {
                     chaptersViewModel.setCurrentChapter(myButton.getChapter());
@@ -69,20 +68,17 @@ public class MainActivity extends AppCompatActivity {
 
         //Création de la vue de la vidéo
         this.videoView = (VideoView) findViewById(R.id.videoView);
-        // et enregistrement de cette vue dans le ViewModel
-        //chaptersViewModel.setVideoView(videoView);
 
         webView = (WebView) findViewById(R.id.webview);
         webView.setWebViewClient(new WebPage());
-
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadUrl("https://en.wikipedia.org/wiki/Big_Buck_Bunny");
+        //on récupère l'URL du chapitre courant chargé plus haut
+        webView.loadUrl(chaptersViewModel.getCurrentChapterLiveData().getValue().getUrl().toString());
 
         //Récupération de la vidéo
         String url = "https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4";
         Uri videoUri = Uri.parse(url);
         videoView.setVideoURI(videoUri);
-
         //Ajout des éléments de contrôle
         MediaController mediaController = new MediaController(this);
 
@@ -109,10 +105,10 @@ public class MainActivity extends AppCompatActivity {
             // update UI
             @Override
             public void onChanged(Integer position) {
-                //chaptersViewModel.setPositionTemporelleLiveData(position);
-                //majVideo();
-                //majWebView(position);
-                //majChapitreCourant(position);
+                //changer de chapitre
+
+                Chapter newChapter = new Chapter();
+                chaptersViewModel.setCurrentChapter(newChapter);
             }
         });
 
