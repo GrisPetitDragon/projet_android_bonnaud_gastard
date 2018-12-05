@@ -38,7 +38,7 @@ public class ChapterViewModel extends ViewModel {
     }
 
     public void setPositionTemporelleLiveData(Integer nvellePositionTemporelle) {
-        //this.positionTemporelleLiveData.setValue(nvellePositionTemporelle);
+        this.positionTemporelleLiveData.setValue(nvellePositionTemporelle);
     }
 
     public MutableLiveData<List<Chapter>> getChapterListLiveData() {
@@ -53,7 +53,11 @@ public class ChapterViewModel extends ViewModel {
         return currentChapterLiveData;
     }
 
-    public void setCurrentChapterLiveData(MutableLiveData<Chapter> currentChapterLiveData) {
+    public void setCurrentChapter(Chapter currentChapter) {
+        this.currentChapterLiveData.setValue(currentChapter);
+    }
+
+    private void setCurrentChapterLiveData(MutableLiveData<Chapter> currentChapterLiveData) {
         this.currentChapterLiveData = currentChapterLiveData;
     }
 
@@ -84,7 +88,7 @@ public class ChapterViewModel extends ViewModel {
 
         Chapter currentChapter = chapterListLiveData.getValue().get(0);
         // On la transmet aux observateurs comme étant le chapitre courant
-       currentChapterLiveData.setValue(currentChapter);
+        currentChapterLiveData.setValue(currentChapter);
 
         //on fixe le point de départ de la vidéo à 0
         positionTemporelleLiveData = new MutableLiveData<Integer>();
@@ -92,17 +96,6 @@ public class ChapterViewModel extends ViewModel {
 
 
     }
-
-    /**
-     * Change la valeur du chapitre courant pour l'ensemble des observateurs du chapitre courant
-     *
-     * @param newCurrentChapter
-     */
-    private void setCurrentChapter(Chapter newCurrentChapter) {
-        //on utilise postValue pour que ce soit asynchrone, autrement ça va bloquer l'appli;
-        currentChapterLiveData.postValue(newCurrentChapter);
-    }
-
 
     /**
      * Charge le JSON en tant que String
@@ -177,13 +170,8 @@ public class ChapterViewModel extends ViewModel {
 
     }
 
-    /**
-     * Sets the videoView to the new position
-     *
-     * @param position
-     */
     //public void majVideo(int position) {
-        //videoView.seekTo(position);
+    //videoView.seekTo(position);
     //}
 
     public List<Chapter> getChapterList() {
@@ -191,7 +179,7 @@ public class ChapterViewModel extends ViewModel {
     }
 
     //public void setVideoView(VideoView videoView) {
-        //this.videoView = videoView;
+    //this.videoView = videoView;
     //}
 }
 
