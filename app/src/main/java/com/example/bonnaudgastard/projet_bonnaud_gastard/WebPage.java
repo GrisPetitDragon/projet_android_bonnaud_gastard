@@ -4,15 +4,10 @@ import android.content.Context;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-public class WebPage {
-
-    /**
-     * Charge la page web
-     */
-    private void loadWebApp(Context context){
-        WebView myWebView = new WebView(context);
-        //setContentView(myWebView);
-        myWebView.setWebViewClient(new WebViewClient());
-        myWebView.loadUrl("https://en.wikipedia.org/wiki/Big_Buck_Bunny");
+public class WebPage extends WebViewClient {
+    @Override
+    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+        view.loadUrl(url);
+        return true;
     }
 }

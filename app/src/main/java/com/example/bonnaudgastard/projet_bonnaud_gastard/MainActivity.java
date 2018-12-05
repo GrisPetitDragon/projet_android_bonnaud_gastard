@@ -1,5 +1,6 @@
 package com.example.bonnaudgastard.projet_bonnaud_gastard;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.arch.lifecycle.Observer;
@@ -24,12 +25,14 @@ import android.widget.VideoView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Iterator;
 
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
     private ChapterData data = new ChapterData();
     private ChapterViewModel chaptersViewModel;
     private VideoView videoView;
+    private WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +45,28 @@ public class MainActivity extends AppCompatActivity{
         //Toast.makeText(this, "This is my Toast message!", Toast.LENGTH_LONG).show();
         chaptersViewModel = new ChapterViewModel(this);//ViewModelProviders.of(this).get(ChapterViewModel.class);
 
-        //Création de la vue
+        Iterator<Chapter> chpIt = chaptersViewModel.getChapterListLiveData().getValue().iterator();
+        while (chpIt.hasNext()) {
+            Chapter chpCourant = chpIt.next();
+            Button myButton = new Button(this);
+            myButton.setText(chpCourant.getName());
+
+            LinearLayout ll = (LinearLayout) this.findViewById(R.id.buttonPanel);
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            ll.addView(myButton, lp);
+        }
+
+
+        //Création de la vue de la vidéo
         this.videoView = (VideoView) findViewById(R.id.videoView);
         // et enregistrement de cette vue dans le ViewModel
-        chaptersViewModel.setVideoView(videoView);
+        //chaptersViewModel.setVideoView(videoView);
+
+        webView = (WebView) findViewById(R.id.webview);
+        webView.setWebViewClient(new WebPage());
+
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.loadUrl("https://en.wikipedia.org/wiki/Big_Buck_Bunny");
 
         //Récupération de la vidéo
         String url = "https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4";
@@ -88,14 +109,22 @@ public class MainActivity extends AppCompatActivity{
 
     }
 
-    public void majVideo (){
+    public void majVideo() {
         videoView.seekTo(this.chaptersViewModel.getPositionTemporelleLiveData().getValue());
     }
 
     /**public void onClick(View videoView) {
-        chaptersViewModel.setPositionTemporelleLiveData(position);
+     chaptersViewModel.setPositionTemporelleLiveData(position);
 
-    }**/
+     }**/
+
+    /**clickButton.setOnClickListener( new OnClickListener() {
+
+    @Override public void onClick(View v) {
+    // TODO Auto-generated method stub
+     ***Do what you want with the click here***
+    }
+    });**/
 
 
 }

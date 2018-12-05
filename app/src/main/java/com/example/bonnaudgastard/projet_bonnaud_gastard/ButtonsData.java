@@ -8,5 +8,6 @@ public class ButtonsData {
 
         this.buttonId = buttonId;
         this.txt=text;
+
     }
 }
