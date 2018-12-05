@@ -60,6 +60,7 @@
         app:layout_constraintVertical_bias="1.0"></LinearLayout>
 
     <WebView
+        android:id="@+id/webview"
         android:layout_width="257dp"
         android:layout_height="227dp"
         android:layout_marginStart="8dp"

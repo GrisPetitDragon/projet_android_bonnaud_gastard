@@ -65,7 +65,7 @@ public class ChapterViewModel extends ViewModel {
     private MutableLiveData<Chapter> currentChapterLiveData =
             new MutableLiveData<>();
 
-    private VideoView videoView;
+    //private VideoView videoView;
 
     String json;
 
@@ -170,19 +170,6 @@ public class ChapterViewModel extends ViewModel {
 
             }
 
-            if (context instanceof Activity) {
-                Activity activity = (Activity) context;
-
-                for(int i=0 ; i<chapList.size() ; i++) {
-                    Button myButton = new Button(context);
-                    myButton.setText(chapList.get(i).getName());
-
-                    LinearLayout ll = (LinearLayout) activity.findViewById(R.id.buttonPanel);
-                    LayoutParams lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-                    ll.addView(myButton, lp);
-                }
-            }
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -195,16 +182,16 @@ public class ChapterViewModel extends ViewModel {
      *
      * @param position
      */
-    public void majVideo(int position) {
-        videoView.seekTo(position);
-    }
+    //public void majVideo(int position) {
+        //videoView.seekTo(position);
+    //}
 
     public List<Chapter> getChapterList() {
         return this.chapterList;
     }
 
-    public void setVideoView(VideoView videoView) {
-        this.videoView = videoView;
-    }
+    //public void setVideoView(VideoView videoView) {
+        //this.videoView = videoView;
+    //}
 }
 
