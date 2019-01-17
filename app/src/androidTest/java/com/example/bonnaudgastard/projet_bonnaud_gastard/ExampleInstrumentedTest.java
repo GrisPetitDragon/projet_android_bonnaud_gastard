@@ -3,12 +3,15 @@ package com.example.bonnaudgastard.projet_bonnaud_gastard;
 import android.content.Context;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import androidx.test.InstrumentationRegistry;
 import androidx.test.espresso.web.webdriver.Locator;
+import androidx.test.filters.LargeTest;
 import androidx.test.runner.AndroidJUnit4;
+import androidx.test.rule.ActivityTestRule;
 
 import static androidx.test.espresso.web.assertion.WebViewAssertions.webMatches;
 import static androidx.test.espresso.web.sugar.Web.onWebView;
@@ -25,10 +28,10 @@ import static org.junit.Assert.*;
 @RunWith(AndroidJUnit4.class)
 public class ExampleInstrumentedTest {
 
-    @Before
-    public void launchActivity() {
-        ActivityScenario.launch(MainActivity.class);
-    }
+    @Rule
+    public ActivityTestRule<MainActivity> mActivityRule =
+            new ActivityTestRule<>(MainActivity.class);
+
 
     @Test
     public void useAppContext() {
