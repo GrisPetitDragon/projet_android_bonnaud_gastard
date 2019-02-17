@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 chaptersViewModel.setPositionTemporelle(position);
 
                 //changer de chapitre
-                /**Iterator<Chapter> chpIt = chaptersViewModel.getChapterListLiveData().getValue().iterator();
+                /*Iterator<Chapter> chpIt = chaptersViewModel.getChapterListLiveData().getValue().iterator();
                 Chapter chpALirePrecedent = new Chapter();
                 while (chpIt.hasNext()) {
                     Chapter chpConsidere = chpIt.next();
@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
                         chaptersViewModel.setCurrentChapter(chpALirePrecedent);
                         //majWebView();
                     }
-                }**/
+                }*/
 
             }
         });
